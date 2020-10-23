@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>AFBNB-{% block title %}{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="images/ico.png" />
+        <link rel="stylesheet" href=" /css/bootstrap.min.css" >
+        <link rel="stylesheet" href=" /css/app.css" >
+        <link rel="stylesheet" href=" /fonts/css/all.css" >
+
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+
+   {% include '/shared/header.html.twig' %}
+
+        {% block body %} {% endblock %}
+
+  {% include '/shared/footer.html.twig' %}    
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/fonts/js/all.js"></script>
+        {% block javascripts %}
+        <script>
+        $(document).ready(function() {
+ setTimeout(function() {
+           $(".alert").alert('close');
+       }, 2000);
+
+});
+         </script>
+        {% endblock %}
+    </body>
+</html>
