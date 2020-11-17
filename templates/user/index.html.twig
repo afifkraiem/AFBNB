@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{user.firstname}} {{user.lastname}}{% endblock %}
+
+{% block body %}
+
+<div class="container"   >
+    <div class="row mb-4" id="box" >
+    <div class="col-md-12 mt-4 text-center">
+        <img src="{{user.picture}}"  style="height:150px; width:150px;border-radius:50%;" class="mb-2" id="user-picture"><br>
+        <h2>{{user.firstname}} {{user.lastname}}</h2>          <span class="badge badge-primary">{{user.ads | length}} Annonces</span><br>
+
+        <p class="mt-3">{{user.description | raw }}</p>
+
+    </div>
+    </div>
+
+    <hr>
+    <h4 class="text-center">les annonces de {{user.firstname}} {{user.lastname}} </h4>
+    {% if user.ads|length > 0 %}
+        <div class="row " >
+          
+    
+    {% for ad in user.ads %}
+    {% set url = path('ads_show',{slug: ad.slug}) %}
+         <div class="col-md-4">
+        <div class="card bg-light mb-3">
+            <div class="card-header text-center"> 
+            {{ad.rooms}} chambres, <strong>{{ad.price}}&euro; / nuit</strong> <br>
+
+            <small>Pas encore noté</small>
+            
+            </div>
+            <a href="{{url}}">
+            <img src="{{ad.coverImage}}" style=" height:200px; width: 100%; display: block;">
+            </a>
+            <div class="card-body">
+            <a href="{{url}}">
+            <h4 class="card-title">{{ad.title}}</h4>
+            </a>
+            <p class="card-text" >{{ad.intro}}</p>
+            <a href="{{url}}" class="btn btn-outline-primary">Savoir plus</a>
+            </div>
+        </div>
+        </div>
+    {% endfor %}
+     
+        </div>
+
+    {% else %}
+        <p>Cet utilisateur n'a pas encore des annonces<p>
+    {% endif %}
+    
+
+
+
+{% endblock %}

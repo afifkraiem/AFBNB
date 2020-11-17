@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Modification du profil {% endblock %}
+
+{% block body %}
+
+
+    
+
+   <div class="container">
+    <div class="card">
+    <div class="card-header">
+        <h3>Vos informations</h3>
+    </div>
+    <div class="row card-body">
+        <div class="col-md-4">
+        <img src="{{user.picture}}" class="img-thumbnail"  >
+        </div>
+        <div class="col-md-8">
+
+        <p><strong>Nom de famille :</strong> {{user.lastname}}</p>
+        <p><strong>Prénom :</strong> {{user.firstname}}</p>
+        <p><strong>Présentation :</strong> {{user.introduction}}</p>
+        <p><strong>Description détaillée :</strong> {{user.description}}</p>
+        <br>
+        <br>
+       
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Modifier</a>
+        </div>
+    </div>
+    </div><br><br>
+        <div class="card collapse" id="collapseExample" >
+         <div class="card-body">
+        {{form_start(form)}}
+        {{form_widget(form)}}
+        {{form_errors(form)}}
+        <button type="submit" class="btn btn-primary">Confirmer</button>
+        <a class="btn btn-outline-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Annuler</a>
+        {{form_end(form)}}
+
+       
+        </div>
+        </div>
+     </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+
+{% endblock %}

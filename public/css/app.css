@@ -1,11 +1,10 @@
-div.adtitle h1, div.adtitle p {
-
+div.adtitle h1,
+div.adtitle p {
     color: white;
-    text-shadow: 3px 3px 3px rgba(0, 0,0,0.5);
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
 div.adtitle {
-
     padding: 2em;
     background-size: cover;
     background-position: center center;
@@ -16,11 +15,24 @@ div.container {
 }
 
 div.carousel-caption {
-    text-shadow: 3px 3px 3px rgba(0, 0,0,0.5);
-
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
 div.card {
-    box-shadow: 1px 1px 1px rgba(235,104,100,0.5);
+    box-shadow: 1px 1px 1px rgba(235, 104, 100, 0.5);
 }
 
+#box {
+    box-shadow: 0 4px 8px 0 rgba(235, 104, 100, 0.5), 0 6px 20px 0 rgba(235, 104, 100, 0.5);
+    border-radius: 25px;
+}
+
+#user-picture {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.avatar-mini {
+    max-width: 60px;
+    max-height: 40px;
+    border-radius: 50%;
+}

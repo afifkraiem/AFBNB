@@ -46,7 +46,7 @@ class AdController extends AbstractController
                 $image->setAd($ad);
                 $em->persist($image);
             }
-            
+            $ad->setAuthor($this->getUser());
             $em->persist($ad);
             $em->flush();
             $this->addFlash('success', "votre annonce <strong>{$ad->getTitle()}</strong> a été bien créee");
@@ -98,7 +98,7 @@ class AdController extends AbstractController
 
      public function show(Ad $ad) 
      {
-
+        
         return $this->render('ad/show.html.twig', [
             'ad' => $ad
         ]);

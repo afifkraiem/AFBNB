@@ -5,7 +5,7 @@
 {% block body %}
 
 <div class="container mt-5 text-center">
-    <h1 class="my-3">Les annonces de nos hôtes </h1>
+    <h1 class="my-3  ">Les annonces de nos hôtes </h1>
 
     <div class="row">
     {% for ad in ads %}
@@ -27,7 +27,7 @@
             <a href="{{url}}">
             <h4 class="card-title">{{ad.title}}</h4>
             </a>
-            <p class="card-text" >{{ad.intro}}</p>
+            <p class="card-text">{{ad.intro}}</p>
             <a href="{{url}}" class="btn btn-outline-primary">Savoir plus</a>
             <a href="{{urledit}}" class="btn btn-outline-primary">Editer</a>
             </div>

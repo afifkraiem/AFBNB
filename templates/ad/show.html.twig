@@ -54,21 +54,18 @@
        <div class="col">
        <div class="row">
        <div class="col-4">
-        <img src="http://placehold.it/65x56"  alt="avatar">
+        <img src="{{ad.author.picture}}"  alt="avatar" style = "height:65; width:65; " class="img-thumbnail">
         </div>
         <div class="col">
-        <h3>Afif Krayem</h3>
-        <span class="badge badge-primary">3 annonces</span>
+       <a href="{{path('user_show', {slug: ad.author.slug})}}" <h3>{{ad.author.firstname}} {{ad.author.lastname}}</h3></a><br>
+        <span class="badge badge-primary">{{ad.author.ads | length}} Annonces</span>
         
         </div>
         </div>
-        <p> Mauris sed sodales nunc. Pellentesque quis mauris tristique, porta felis in, eleifend ligula</p>
-        <p>  Morbi purus urna, feugiat sed lectus sit amet, porta tincidunt orci. Integer elementum eros lectus, at interdum dolor dignissim a. Pellentesque euismod massa mauris, vel condimentum nunc porttitor vel. Aliquam varius condimentum odio, vitae semper elit. Maecenas scelerisque, nisl et consectetur pellentesque, arcu ante placerat leo, nec gravida lorem tortor at orci. Suspendisse est urna, semper id consequat et, ornare et libero.</p>
-        <p>  Vivamus maximus facilisis mi et viverra. Ut condimentum augue quis turpis pulvinar gravida. Praesent et lorem quis libero dapibus consequat. Pellentesque sit amet volutpat orci. Cras dapibus arcu nisl. Vestibulum ac ipsum iaculis, vehicula eros et, laoreet nibh.</p>
+        {{ad.author.description | raw}}
         </div>
     </div>    
  </div>
 
- 
  
  {% endblock %}
