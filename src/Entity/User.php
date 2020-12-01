@@ -64,6 +64,7 @@ class User implements UserInterface
     * pattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/i",message="Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole.")
      */
     private $password;
+    
     /**
      * @Assert\EqualTo(propertyPath="password", message=" les deux mots de passes ne sont pas identiques ")
      */
@@ -92,9 +93,21 @@ class User implements UserInterface
      */
     private $ads;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class, mappedBy="users")
+     */
+    private $userRoles;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="Booker")
+     */
+    private $bookings;
+
     public function __construct()
     {
         $this->ads = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -244,8 +257,14 @@ class User implements UserInterface
     }
 
     public function getRoles()
-    {
-         return ['ROLE_USER'];
+    {   
+        $roles = $this->userRoles->map(function($role) {
+            return $role->getRole();
+        })->toArray();
+
+        $roles [] = 'ROLE_USER';
+        
+         return $roles;
     }
 
     public function getSalt()
@@ -261,5 +280,64 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRoles->contains($userRole)) {
+            $this->userRoles->removeElement($userRole);
+            $userRole->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setBooker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getBooker() === $this) {
+                $booking->setBooker(null);
+            }
+        }
+
+        return $this;
     }
 }

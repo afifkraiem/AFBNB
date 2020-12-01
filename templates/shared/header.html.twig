@@ -18,9 +18,12 @@
        <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
         <img src="{{app.user.picture}}" class="avatar-mini">
-        {{app.user.firstname[:1]}}{{app.user.lastname[:1]}} </a>
+         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="{{path('account_profil')}}">Mon profil</a>
+        <a class="dropdown-item" href="{{path('ads_create')}}">Créer une annonce</a>
+        <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{path('account_profil')}}">Mon compte</a>
+          <a class="dropdown-item" href="{{path('account_profil')}}">Modifier mon profil</a>
           <div class="dropdown-divider"></div>
 <a class="dropdown-item" href="{{path('account_logout')}}">Déconnexion</a>        </div>
       </li>

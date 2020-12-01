@@ -21,7 +21,7 @@
         <p><strong>Nom de famille :</strong> {{user.lastname}}</p>
         <p><strong>Prénom :</strong> {{user.firstname}}</p>
         <p><strong>Présentation :</strong> {{user.introduction}}</p>
-        <p><strong>Description détaillée :</strong> {{user.description}}</p>
+        <p><strong>Description détaillée :</strong> {{user.description | raw }}</p>
         <br>
         <br>
        
@@ -42,7 +42,6 @@
         </div>
         </div>
      </div>
-
 
 
 {% endblock %}

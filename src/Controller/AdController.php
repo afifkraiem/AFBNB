@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
-use App\Entity\Image;
 use App\Form\AdType;
+use App\Entity\Image;
 use App\Repository\AdRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdController extends AbstractController
@@ -20,7 +22,8 @@ class AdController extends AbstractController
      */ 
     public function index(AdRepository $repo)
     {
-
+        
+    
         $ads = $repo->findAll();
         return $this->render('ad/index.html.twig', [
             'ads' => $ads,
@@ -29,7 +32,7 @@ class AdController extends AbstractController
 
     /**
      * @Route("/ads/new", name="ads_create")
-     * 
+     * @IsGranted("ROLE_USER")
      *
      * @return Response
      */
@@ -60,13 +63,14 @@ class AdController extends AbstractController
     /**
      * Edition d'une annonce
      * @Route("/ads/{slug}/edit", name="ads_edit")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()")
      * 
      * @return Response
      */
 
-    public function edit(Request $request, ObjectManager $em, $slug, AdRepository $adRepo) {
+    public function edit(Request $request, ObjectManager $em, $slug, AdRepository $adRepo, Ad $ad) {
 
-        $ad = $adRepo->findOneBySlug($slug);
+        
         
         $form = $this->createForm(AdType::class,$ad);
         $form->handleRequest($request);    
@@ -105,4 +109,21 @@ class AdController extends AbstractController
 
      }
 
+
+    /**
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     *@Security("is_granted('ROLE_USER') and user === ad.getAuthor()")
+     * @param Ad $ad
+     * @return Response
+     */
+
+     public function delete(Ad $ad, ObjectManager $em) {
+
+        $em->remove($ad);
+        $em->flush();
+
+        $this->addFlash('success', " l'annonce <strong>$ad->getTitle()</strong> a été supprimée avec succès !");
+
+        return $this->redirectToRoute('ads_index');
+     }
 }

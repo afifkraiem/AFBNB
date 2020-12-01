@@ -2,19 +2,21 @@
 
 namespace App\Controller;
 
-use App\Entity\PasswordUpdate;
 use App\Entity\User;
-use App\Form\PasswordUpdateType;
 use App\Form\ProfilType;
+use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
+use App\Form\PasswordUpdateType;
+use App\Repository\BookingRepository;
+use Symfony\Component\Form\FormError;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AccountController extends AbstractController
 {
@@ -71,6 +73,7 @@ class AccountController extends AbstractController
 
      /**
       * @Route("/account/profile", name="account_profil")
+      * @IsGranted("ROLE_USER")
       *@return Response
       */
 
@@ -93,6 +96,7 @@ class AccountController extends AbstractController
       /**
        * modification du mot de passe utilisateur
        *@Route("/account/reset-password", name="reset_password")
+       *@IsGranted("ROLE_USER")
        * @return Response
        */
       public function resetPassword (Request $request, ObjectManager $em, UserPasswordEncoderInterface $encoder) {
@@ -122,4 +126,13 @@ class AccountController extends AbstractController
         return $this->render('account/password.html.twig', ['form'=>$form->createView()]);
 
       }
+
+      /**
+       * @Route("/account/mybookings", name="mybookings")
+       * @IsGranted("ROLE_USER")
+       */
+      public function Bookings() {
+       
+        return $this->render('account/bookings.html.twig');
+    }
 }

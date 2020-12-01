@@ -4,6 +4,12 @@ div.adtitle p {
     text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
+body {
+    font-family: "Open Sans";
+    background-color: white !important;
+    color: #535B64;
+}
+
 div.adtitle {
     padding: 2em;
     background-size: cover;
@@ -35,4 +41,18 @@ div.card {
     max-width: 60px;
     max-height: 40px;
     border-radius: 50%;
+}
+
+body {
+    margin-bottom: 40px;
+}
+
+#footer {
+    width: 100%;
+}
+
+.datepicker table tr td.disabled,
+.datepicker table tr td.disabled:hover {
+    color: firebrick !important;
+    background-color: rgb(228, 222, 222) !important;
 }
