@@ -1,93 +1,158 @@
 {% extends "base.html.twig" %}
 
-{% block title %} Réservation (n° {{booking.id}}) {% endblock %} 
+{% block title %}
+	Réservation (n°
+	{{booking.id}})
+{% endblock %}
 
 {% block body %}
-{% set ad = booking.ad %}
-{% set author = ad.author %}
-<div class="container">
-{% if app.request.query.get('success') %}
+	{% set ad = booking.ad %}
+	{% set author = ad.author %}
+	<div class="container">
+		{% if app.request.query.get('success') %}
 
-    <h1 class="text-center mb-5">Votre réservation n° {{booking.id}} </h1>
-<div class="alert alert-success" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        <span class="sr-only">Close</span>
-    </button>
-    <h4 class="alert-heading">Bravo !</h4>
+			<h1 class="text-center mb-5">Votre réservation n°
+				{{booking.id}}
+			</h1>
+			<div class="alert alert-success" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="alert-heading">Bravo !</h4>
 
-    <p> Votre réservation auprès de <a href="{{path('user_show', {'slug': author.slug})}}"> {{author.firstName}} {{author.lastName}}</a>
-    
-    pour l'annonce <a href="{{path('ads_show', {'slug' : ad.slug})}}" >{{ad.title}} </a> 
-    a bien été prise en compte !</p>
-</div>
-{% endif %}
-    <div class="row ">
-        <div class="col">
-            <div class="card">
-            
-            <h3 class="ml-1 mt-2">Détails de la réservation :</h3>
-            <dl class="row ml-1">
-                <dt class="col-md-4">Numéro :</dt>
-                <dd class="col-md-8">{{booking.id}}</dd>
-                <dt class="col-md-4">Date d'arrivée : </dt>
-                <dd class="col-md-8">{{booking.startDate | date('d-m-Y')}}</dd>
-                <dt class="col-md-4">Date de départ : </dt>
-                <dd class="col-md-8">{{booking.endDate | date('d-m-Y')}}</dd>
-                <dt class="col-md-4">Nombre de nuits : </dt>
-                <dd class="col-md-8">{{booking.getDuration()}}</dd>
-                <dt class="col-md-4">Montant total :</dt>
-                <dd class="col-md-8">{{booking.amount}} <i class="fas fa-euro-sign    "></i></dd>
-                <dt class="col-md-4">Commentaire :</dt>
-                <dd class="col-md-8">{{booking.commentaire}}</dd>
-            </dl>
-            <hr>
+				<p>
+					Votre réservation auprès de
+					<a href="{{path('user_show', {'slug': author.slug})}}">
+						{{author.firstName}}
+						{{author.lastName}}</a>
 
-            <h3 class="ml-1">Votre hôte :</h3>
-            <div class="row ml-1 mb-3">
-                <div class="col-4">
-                    <img src="{{author.picture}}"  alt="" class="" id="user-picture" style="height:110px; width:110px;border-radius:50%;">
-                </div>
+					pour l'annonce
+					<a href="{{path('ads_show', {'slug' : ad.slug})}}">{{ad.title}}
+					</a>
+					a bien été prise en compte !</p>
+			</div>
+		{% endif %}
+		<div class="row ">
+			<div class="col">
+				<div class="card">
 
-                <div class="col-8">
-                    <h5>
-                        <a href="{{path('user_show', {'slug': author.slug})}}"> {{author.firstName}} {{author.lastName}}</a>
-                    </h5>
+					<h3 class="ml-1 mt-2">Détails de la réservation :</h3>
+					<dl class="row ml-1">
+						<dt class="col-md-4">Numéro :</dt>
+						<dd class="col-md-8">{{booking.id}}</dd>
+						<dt class="col-md-4">Date d'arrivée :
+						</dt>
+						<dd class="col-md-8">{{booking.startDate | date('d-m-Y')}}</dd>
+						<dt class="col-md-4">Date de départ :
+						</dt>
+						<dd class="col-md-8">{{booking.endDate | date('d-m-Y')}}</dd>
+						<dt class="col-md-4">Nombre de nuits :
+						</dt>
+						<dd class="col-md-8">{{booking.getDuration()}}</dd>
+						<dt class="col-md-4">Montant total :</dt>
+						<dd class="col-md-8">{{booking.amount}}
+							<i class="fas fa-euro-sign    "></i>
+						</dd>
+						<dt class="col-md-4">Commentaire :</dt>
+						<dd class="col-md-8">{{booking.commentaire | default('Aucun commenatire')}}</dd>
+					</dl>
+					<hr>
 
-                    <span class="badge badge-primary">{{author.ads | length}} Annonce(s)</span>
-                  
-                </div>
-            </div>
-            <div class="row m-2">
-                {{author.description | raw}}<br>
-                <br>
-                <div class="col-md-12 mt-2 text-center">
-                <a href="{{path('user_show', {'slug' : author.slug})}}" class="btn btn-outline-primary">Plus d'infos sur {{author.firstName}}</a>
-            </div>
-            </div>
-            </div>
-        
-        </div>
-        <div class="col">
-            <div class="card">
-            
-            <h3 class="ml-1 mt-2 ">Votre hébergement : <a href="{{path('ads_show', {'slug': ad.slug})}}"> {{ad.title}} </a> </h3>  
-            
-            <img src="{{ad.coverImage}}"  alt="" class="img-fluid mt-2">
-            <br><br>
-            <div class="row m-2 ">
-            {{ad.content | raw}}
+					<h3 class="ml-1">Votre hôte :</h3>
+					<div class="row ml-1 mb-3">
+						<div class="col-4">
+							<img src="{{author.picture}}" alt="" class="" id="user-picture" style="height:110px; width:110px;border-radius:50%;">
+						</div>
 
-            <div class="col-md-12 text-center mt-2">
-            <a href="{{path('ads_show', {'slug' : ad.slug})}}" class="btn btn-outline-primary ">Plus d'infos </a>
-            </div>
-            </div>
+						<div class="col-8">
+							<h5>
+								<a href="{{path('user_show', {'slug': author.slug})}}">
+									{{author.firstName}}
+									{{author.lastName}}</a>
+							</h5>
 
-            </div>
-        
-        
-        </div>
-    </div>
-</div>
+							<span class="badge badge-primary">{{author.ads | length}}
+								Annonce(s)</span>
+
+						</div>
+					</div>
+					<div class="row m-2">
+						{{author.description | raw}}<br>
+						<br>
+						<div class="col-md-12 mt-2 text-center">
+							<a href="{{path('user_show', {'slug' : author.slug})}}" class="btn btn-outline-primary">Plus d'infos sur
+								{{author.firstName}}</a>
+						</div>
+					</div>
+				</div>
+				<br>
+				<br>
+				<div class="alert alert-light">
+					<h2 class="alert-heading">Votre avis compte !</h2>
+					{% if date() > date(booking.endDate) %}
+                        {% set comment = booking.ad.commentFromAuthor(app.user) %}
+
+                        {% if comment is not null %}
+                        
+                        <blockquote> {{comment.content }}</blockquote>
+
+                        <p>Note : </p> {% include "shared/rating.html.twig"  with {'rating' : comment.rating } %}
+                        {% else %}
+                            
+                        {{form_start(form)}}
+                        <div class="input-group mb-3 mt-3 ">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i class="far fa-star"></i></span>
+							</div>
+                            {{form_widget(form.rating)}}
+    						</div>
+
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1"><i class="fas fa-comment"></i></span>
+							</div>
+                            {{form_widget(form.content)}}
+    						</div>
+
+						<button type="submit" class="btn-grad">Commenter</button>
+
+						{{form_end(form)}}
+                        {% endif %}
+                        
+						
+					{% else %}
+						<p>Veuillez revenir ici dès que votre séjour se termine !</p>
+					{% endif %}
+
+				</div>
+
+			</div>
+			<div class="col">
+				<div class="card">
+
+					<h3 class="ml-1 mt-2 ">Votre hébergement :
+						<a href="{{path('ads_show', {'slug': ad.slug})}}">
+							{{ad.title}}
+						</a>
+					</h3>
+
+					<img src="{{ad.coverImage}}" alt="" class="img-fluid mt-2">
+					<br><br>
+					<div class="row m-2 ">
+						{{ad.content | raw}}
+
+						<div class="col-md-12 text-center mt-2">
+							<a href="{{path('ads_show', {'slug' : ad.slug})}}" class="btn btn-outline-primary ">Plus d'infos
+							</a>
+						</div>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+	</div>
 
 {% endblock %}

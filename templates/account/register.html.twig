@@ -20,3 +20,27 @@
      </div>
 
 {% endblock %}
+
+{% block javascripts  %}
+
+{{parent()}}
+
+<script>
+
+$('#registration_password').on('input change keyup',function() {
+
+        console.log('test');
+        var pwd = $('#registration_password').val();
+        if(pwd.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/i) ) {
+                        console.log('match');
+
+        } else {
+                console.log('unmatch');
+        }
+              
+        
+});
+
+</script>
+
+{% endblock %}

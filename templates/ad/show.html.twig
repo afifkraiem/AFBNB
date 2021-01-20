@@ -1,100 +1,153 @@
- {% extends "base.html.twig" %}
+{% extends "base.html.twig" %}
 
- {% block title%} {{ad.title}}{% endblock %}
+{% block title%}
+	{{ad.title}}
+{% endblock %}
 
- {% block body %} 
+{% block body %}
 
 
- <div class="adtitle" style ="background-image: url({{ad.coverImage}});">
- 
-    <div class="container">
-        <h1>{{ad.title}}</h1> 
-        <p>{{ad.intro}}</p> 
-        <p class="h2"> 
-            <strong>{{ad.rooms}} chambres</strong> pour <strong>{{ad.price}}&euro;</strong> par nuit
+	<div class="adtitle" style="background-image: url({{ad.coverImage}});">
+
+		<div class="container">
+			<h1>{{ad.title}}</h1>
+			<p>{{ad.intro}}</p>
+			<p class="h2">
+				<strong>{{ad.rooms}}
+					chambres</strong>
+				pour
+				<strong>{{ad.price}}&euro;</strong>
+				par nuit
+
+			</p>
+			{% if not (app.user == ad.author) %}
+				<a href="{{path('booking_create', {'slug': ad.slug})}}" class="btn btn-primary">Réserver</a>
+			{% endif %}
+
+
+			{% if app.user and app.user == ad.author  %}
+				<a href="{{path('ads_edit', {'slug': ad.slug})}}" class="btn btn-outline-danger">Editer</a>
+				<button class="btn btn-danger" data-toggle="modal" data-target="#deleteAdModal">Supprimer l'annonce</button>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-8 mb-3">
+				{{ad.content|raw}}
+
+				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						{% for image in ad.images %}
+							<li data-target="#carouselExampleIndicators" data-slide-to="{{loop.index0}}" {% if loop.first %} class="active" {% endif %}></li>
+						{% endfor %}
+					</ol>
+					<div class="carousel-inner">
+						{% for image in ad.images %}
+							<div class="carousel-item {% if loop.first %}active {% endif %}">
+								<img src="{{image.url}}" class="d-block w-100" alt="...">
+								<div class="carousel-caption d-none d-md-block">
+									<h5>{{ad.title}}</h5>
+									<p>{{image.caption}}</p>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+
+				<hr>
+
+
+			</div>
+			<div class="col">
+				<div class="row">
+					<div class="col-4">
+						<img src="{{ad.author.picture}}" alt="avatar" style="height:65; width:65; " class="img-thumbnail">
+					</div>
+					<div class="col">
+						<a href="{{path('user_show', {slug: ad.author.slug})}}"> <h3>{{ad.author.firstname}} {{ad.author.lastname}} </h3></a><br>
+							<span class="badge badge-primary">{{ad.author.ads | length}}
+								Annonces</span>
+
+						</div>
+					</div>
+					{{ad.author.description | raw}}
+				</div>
+			</div>
+
+        {% if ad.comments|length > 0 %}
+  <h2 class="mb-3">Commentaires de nos voyageurs : </h2>
+
+  <div class="alert alert-info">
+    <h4 class="alert-heading text-center">
+      <div class="row align-items-center">
+        <div class="col">
+          Note globale donnée par nos voyageurs <br>
         
-        </p>  {% if not (app.user == ad.author) %}
-        <a href="{{path('booking_create', {'slug': ad.slug})}}" class="btn btn-primary">Réserver</a>
-        {% endif %}
-        
-        
-         {% if app.user and app.user == ad.author  %}
-         <a href="{{path('ads_edit', {'slug': ad.slug})}}" class="btn btn-outline-danger">Editer</a>
-         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteAdModal" >Supprimer l'annonce</button>
-          {% endif %}
-    </div>
- </div>
-
- <div class="container">
-
-    <div class="row">
-       <div class="col-md-8 mb-3" >
-       {{ad.content|raw}}
-
-       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-         <ol class="carousel-indicators">
-            {% for image in ad.images %}
-            <li data-target="#carouselExampleIndicators" data-slide-to="{{loop.index0}}" {% if loop.first %}class="active" {% endif %}></li>
-            {% endfor %}
-        </ol>
-    <div class="carousel-inner">
-    {% for image in ad.images %}
-    <div class="carousel-item {% if loop.first %}active {% endif %}">
-      <img src="{{image.url}}" class="d-block w-100" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>{{ad.title}}</h5>
-        <p>{{image.caption}}</p>
-      </div>
-    </div>
-   {% endfor %}
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-       </div>
-       <div class="col">
-       <div class="row">
-       <div class="col-4">
-        <img src="{{ad.author.picture}}"  alt="avatar" style = "height:65; width:65; " class="img-thumbnail">
         </div>
         <div class="col">
-       <a href="{{path('user_show', {slug: ad.author.slug})}}" <h3>{{ad.author.firstname}} {{ad.author.lastname}}</h3></a><br>
-        <span class="badge badge-primary">{{ad.author.ads | length}} Annonces</span>
-        
+        {% include "shared/rating.html.twig" with {'rating': ad.avgRatings} %}<br>
+        (          <small>Calculée sur {{ad.comments| length}} avis !</small>
+)
         </div>
-        </div>
-        {{ad.author.description | raw}}
-        </div>
-    </div>    
- </div>
-
- <!-- Modal de suppression d'une annonce !-->
- 
-
- <div class="modal" id="deleteAdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirmation de suppression</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
-      <div class="modal-body">
-        <p>Voulez vous vraiment supprimer l'annonce <strong> {{ad.title}} ?</strong></p>
-      </div>
-      <div class="modal-footer">
-        <a href="{{path('ads_delete', {'slug': ad.slug})}}" class="btn btn-primary">Confirmer</a>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-      </div>
-    </div>
+    </h4>
+  
   </div>
-</div>
+    {% for comment in ad.comments %}
 
- {% endblock %}
+      <div class="bg-light rounded mb-3 py-3 px-3">
+        <strong> {{comment.author.firstName}}</strong> a dit :
+
+        <blockquote > {{comment.content}}</blockquote >
+<br>
+        <strong>Note donnée : </strong>
+        {% include "shared/rating.html.twig" with {'rating': comment.rating} %}
+        
+      
+      </div>
+    {% endfor %}
+
+{% endif %}
+</div>
+    
+		
+
+		<!-- Modal de suppression d'une annonce !-->
+
+
+		<div class="modal" id="deleteAdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Confirmation de suppression</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>Voulez vous vraiment supprimer l'annonce
+							<strong>
+								{{ad.title}}
+								?</strong>
+						</p>
+					</div>
+					<div class="modal-footer">
+						<a href="{{path('ads_delete', {'slug': ad.slug})}}" class="btn btn-primary">Confirmer</a>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	{% endblock %}

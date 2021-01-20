@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Simple Sidebar - Start Bootstrap Template</title>
+
+  <!-- Bootstrap core CSS -->
+
+  <!-- Custom styles for this template -->
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading mb-5 mt-3"> <strong> Espace Administration</strong> </div>
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action "><i class="fad fa-analytics"></i>  <strong> Dashboard</strong></a>
+        <hr>
+        <a href="{{path('admin_ads')}}" class="list-group-item list-group-item-action {% if app.request.attributes.get('_route') == 'admin_ads' %}active{% endif %} "><i class="far fa-building"></i> <strong>  Annonces</strong></a>
+        <a href="{{path('admin_bookings')}}" class="list-group-item list-group-item-action {% if app.request.attributes.get('_route') == 'admin_bookings' %}active{% endif %} "><i class="far fa-list-alt"></i> <strong>  Réservations</strong></a>
+        <a href="#" class="list-group-item list-group-item-action "><i class="fal fa-users"></i> <strong>Utilisateurs</strong></a>
+        <a href="#" class="list-group-item list-group-item-action "><i class="fal fa-comments-alt"></i> <strong> Commentaires</strong> </a>
+
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+ 
+  <!-- /#wrapper -->
+
+
+ 
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des réservations {% endblock %}
+{% block body %}
+
+<div class="container-fluid">
+
+<h1 class="my-5 text-center"> Gestion des réservations </h1>
+
+<table class="table table-hover table-bordered " id="tableRes">
+    <thead>
+        <tr>
+            <th class="text-center">Id</th>
+            <th class="text-center">Bien reservé</th>
+            <th class="text-center">Guest</th>
+            <th class="text-center">Date de début</th>
+            <th class="text-center">Date de fin</th>
+            <th class="text-center">Montant à payer ( euros )</th>
+            <th class="text-center">Commentaire</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for booking in bookings %}
+        
+    
+        <tr>
+            <td scope="row">{{booking.id}}</td>
+            <td>{{booking.ad.title}}</td>
+            <td>{{booking.booker.firstname }} {{booking.booker.lastname}}</td>
+            <td>{{booking.startDate | date('d-m-Y')}}</td>
+            <td>{{booking.endDate | date('d-m-Y')}}</td>
+            <td>{{booking.amount}}</td>
+            <td>{{booking.commentaire}}</td>
+            <td>
+                <a href='#' class="btn btn-danger" style="border-radius: 50%   "><i class="fas fa-trash"></i></a>
+                <a href='#' class="btn btn-info" style="border-radius: 50%  "><i class="fas fa-edit"></i></a>
+            
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{parent()}}
+<script>
+ $(document).ready(function() {
+    $('#ads').DataTable({
+
+         buttons: [
+        'copy', 'excel', 'pdf'
+    ]
+    });
+} );
+</script>
+{% endblock %}
