@@ -22,19 +22,20 @@ class AdRepository extends ServiceEntityRepository
     // /**
     //  * @return Ad[] Returns an array of Ad objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findBestAds($limit)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('a as annonce ,AVG(c.rating) as avgRating')
+            ->join('a.comments', 'c')
+            ->groupBy('a')
+            ->orderBy('avgRating', 'DESC')
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Ad
